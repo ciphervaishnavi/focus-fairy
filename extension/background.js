@@ -70,3 +70,12 @@ function showFairyMessage() {
     setTimeout(() => messageContainer.remove(), 500);
   }, 5000);
 }
+
+// Listen for requests from content script to open popup
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'openPopup') {
+    // Try to open the popup page in a new tab as a fallback UX
+    chrome.tabs.create({ url: chrome.runtime.getURL('popup.html') });
+    sendResponse({ ok: true });
+  }
+});

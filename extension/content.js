@@ -1,16 +1,16 @@
 // Content script for injecting fairy elements into web pages
 (() => {
-  // Create and inject fairy styles
+  // Create and inject minimal, prefixed fairy styles (avoid global overrides)
   const style = document.createElement('style');
   style.textContent = `
-    .focus-fairy-container {
+    .ff-fairy-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       z-index: 10000;
     }
     
-    .focus-fairy {
+    .ff-fairy {
       width: 60px;
       height: 60px;
       cursor: pointer;
@@ -23,7 +23,7 @@
       100% { transform: translateY(0px); }
     }
     
-    .fairy-message {
+    .ff-fairy-message {
       position: absolute;
       bottom: 70px;
       right: 0;
@@ -41,7 +41,7 @@
       pointer-events: none;
     }
     
-    .fairy-message.show {
+    .ff-fairy-message.show {
       opacity: 1;
       transform: translateY(0);
     }
@@ -66,11 +66,11 @@
   
   // Create fairy container
   const fairyContainer = document.createElement('div');
-  fairyContainer.className = 'focus-fairy-container';
+  fairyContainer.className = 'ff-fairy-container';
   
   // Create fairy image
   const fairy = document.createElement('div');
-  fairy.className = 'focus-fairy';
+  fairy.className = 'ff-fairy';
   fairy.innerHTML = '🧚‍♀️';
   fairy.style.fontSize = '40px';
   fairy.style.cursor = 'pointer';
@@ -78,7 +78,7 @@
   
   // Create message bubble
   const message = document.createElement('div');
-  message.className = 'fairy-message';
+  message.className = 'ff-fairy-message';
   
   fairyContainer.appendChild(message);
   fairyContainer.appendChild(fairy);
@@ -115,5 +115,11 @@
     message.textContent = "Opening your focus companion! 🌟";
     message.classList.add('show');
     setTimeout(() => message.classList.remove('show'), 2000);
+
+    try {
+      chrome.runtime.sendMessage({ action: 'openPopup' });
+    } catch (_) {
+      // ignore if not available on some pages
+    }
   });
 })();
