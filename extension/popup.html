@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Focus Fairy</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="fairy-header">
+      <div class="fairy-avatar">🧚‍♀️</div>
+      <h1>Focus Fairy</h1>
+    </div>
+    
+    <div class="chat-container">
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-container">
+        <input type="text" id="chat-input" placeholder="Ask your fairy for help...">
+        <button id="send-message">✨</button>
+      </div>
+    </div>
+
+    <div class="timer-container">
+      <div class="timer-display">
+        <span id="timer">25:00</span>
+      </div>
+      <div class="timer-controls">
+        <button id="start-timer" class="timer-btn">Start Focus Time</button>
+        <button id="pause-timer" class="timer-btn" disabled>Pause</button>
+        <button id="reset-timer" class="timer-btn">Reset</button>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
