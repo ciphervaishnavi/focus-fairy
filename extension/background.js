@@ -64,18 +64,58 @@ function showFairyMessage() {
   document.head.appendChild(style);
   document.body.appendChild(messageContainer);
   
-  // Remove the message after 5 seconds
+  // --- START OF NEW CODE ---
+
+  // Add a click listener to the fairy message
+  messageContainer.addEventListener('click', () => {
+    // Remove the fairy message when it's clicked
+    messageContainer.remove();
+
+    // 1. Create the overlay container
+    const popupOverlay = document.createElement('div');
+    popupOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 20000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+
+    // 2. Create the iframe to load popup.html
+    const popupFrame = document.createElement('iframe');
+    popupFrame.src = chrome.runtime.getURL('popup.html');
+    popupFrame.style.cssText = `
+        width: 300px; /* Adjust size as needed */
+        height: 400px; /* Adjust size as needed */
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    `;
+
+    // 3. Add a way to close the popup
+    popupOverlay.addEventListener('click', () => {
+        popupOverlay.remove();
+    });
+
+    // 4. Append the elements to the page
+    popupOverlay.appendChild(popupFrame);
+    document.body.appendChild(popupOverlay);
+  });
+
+  // --- END OF NEW CODE ---
+  
+  // Remove the message after 5 seconds IF NOT clicked
   setTimeout(() => {
-    messageContainer.style.animation = 'fadeIn 0.5s ease-in-out reverse';
-    setTimeout(() => messageContainer.remove(), 500);
+    // Check if the element is still in the DOM before trying to remove it
+    if (messageContainer.parentNode) {
+      messageContainer.style.animation = 'fadeIn 0.5s ease-in-out reverse';
+      setTimeout(() => messageContainer.remove(), 500);
+    }
   }, 5000);
 }
-
 // Listen for requests from content script to open popup
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'openPopup') {
-    // Try to open the popup page in a new tab as a fallback UX
-    chrome.tabs.create({ url: chrome.runtime.getURL('popup.html') });
-    sendResponse({ ok: true });
-  }
-});

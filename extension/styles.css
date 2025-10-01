@@ -4,6 +4,19 @@
   --text-color: #4a4a4a;
   --background-color: #fff8ff;
   --accent-color: #ffd6f5;
+  --card-bg: #ffffff;
+  --border-color: #e0e0e0;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  --primary-color: #c77dff;
+  --secondary-color: #7209b7;
+  --text-color: #e0e0e0;
+  --background-color: #1a1a2e;
+  --accent-color: #9d4edd;
+  --card-bg: #16213e;
+  --border-color: #3a3a5c;
 }
 
 body {
@@ -13,6 +26,8 @@ body {
   padding: 15px;
   font-family: 'Arial', sans-serif;
   background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .popup-container {
@@ -39,12 +54,50 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
+.status-badge {
+  margin-left: auto;
+  padding: 2px 8px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: #eee;
+  color: #333;
+}
+.status-online {
+  background: #d4edda;
+  color: #155724;
+}
+.status-offline {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.dark-mode-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: transform 0.2s, background-color 0.2s;
+  margin-left: 5px;
+}
+
+.dark-mode-btn:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dark-mode-btn:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
 .chat-container {
   flex: 1;
-  background-color: white;
+  background-color: var(--card-bg);
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
 }
 
 .chat-messages {
@@ -99,9 +152,10 @@ body {
 .timer-container {
   text-align: center;
   padding: 15px;
-  background-color: white;
+  background-color: var(--card-bg);
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
 }
 
 .timer-display {
