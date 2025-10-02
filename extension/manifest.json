@@ -11,12 +11,7 @@
   ],
   "host_permissions": [
     "http://localhost:3000/*",
-    "*://*.youtube.com/*",
-    "*://*.instagram.com/*",
-    "*://*.facebook.com/*",
-    "*://*.twitter.com/*",
-    "*://*.x.com/*",
-    "*://*.reddit.com/*"
+    "<all_urls>"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -26,14 +21,7 @@
     "service_worker": "background.js"
   },
   "content_scripts": [{
-    "matches": [
-      "*://*.youtube.com/*",
-      "*://*.instagram.com/*",
-      "*://*.facebook.com/*",
-      "*://*.twitter.com/*",
-      "*://*.x.com/*",
-      "*://*.reddit.com/*"
-    ],
+    "matches": ["<all_urls>"],
     "js": ["content.js"],
     "run_at": "document_idle"
   }],
