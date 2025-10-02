@@ -119,3 +119,19 @@ function showFairyMessage() {
   }, 5000);
 }
 // Listen for requests from content script to open popup
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+  if (request.action === 'openExtensionPopup') {
+    try {
+      // Open the actual extension popup (same as clicking the extension icon)
+      await chrome.action.openPopup();
+    } catch (error) {
+      console.error('Failed to open popup:', error);
+      // Fallback: Try to open popup in the current tab
+      try {
+        await chrome.action.openPopup({ tabId: sender.tab.id });
+      } catch (fallbackError) {
+        console.error('Fallback also failed:', fallbackError);
+      }
+    }
+  }
+});
